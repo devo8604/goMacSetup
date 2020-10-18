@@ -19,18 +19,22 @@ const (
 // Downloads a file from a given url to a given filepath
 func downloadFile(url string, filepath string) error {
 
+	// Create the out file
 	out, err := os.Create(filepath)
 	if err != nil {
 		return err
 	}
 
+	// Make sure the file is closed before return
 	defer out.Close()
 
+	// Get remote file
 	resp, err := http.Get(url)
 	if err != nil {
 		return err
 	}
 
+	// Copy remote file data to local file
 	_, err = io.Copy(out, resp.Body)
 	if err != nil {
 		return err
